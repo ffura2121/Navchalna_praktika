@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сервіс оренди житла</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #ff7f50;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #ff7f50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #ff6347;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .results div {
+            padding: 10px;
+            background-color: #e0f7fa;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        .results img {
+            max-width: 100px;
+            margin-right: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Сервіс оренди житла</h1>
+        <div class="form-group">
+            <label for="city">Місто</label>
+            <select id="city">
+                <option value="kyiv">Київ</option>
+                <option value="lviv">Львів</option>
+                <option value="odessa">Одеса</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="distance">Відстань від вас</label>
+            <select id="distance">
+                <option value="1">1 км</option>
+                <option value="5">5 км</option>
+                <option value="10">10 км</option>
+                <option value="all">Обрати всі варіанти</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="rooms">Кількість кімнат</label>
+            <select id="rooms">
+                <option value="1">1-кімната</option>
+                <option value="2">2-кімнати</option>
+                <option value="3">3-кімнати</option>
+            </select>
+        </div>
+        <button onclick="search()">Знайти житло</button>
+        <div class="results" id="results"></div>
+    </div>
+    <script>
+        function search() {
+            const city = document.getElementById('city').value;
+            const distance = document.getElementById('distance').value;
+            const rooms = document.getElementById('rooms').value;
+            
+            const prices = {
+                kyiv: { '1': [8000, 8500, 8200], '2': [15000, 15500, 15200], '3': [20000, 20500, 20200] },
+                lviv: { '1': [7000, 7500, 7200], '2': [13000, 13500, 13200], '3': [18000, 18500, 18200] },
+                odessa: { '1': [6000, 6500, 6200], '2': [11000, 11500, 11200], '3': [16000, 16500, 16200] }
+            };
+            
+            const results = [
+                // Київ
+                {city: 'kyiv', distance: '1', rooms: '1', price: prices.kyiv['1'][0], image: 'https://example.com/kyiv1.jpg'},
+                {city: 'kyiv', distance: '1', rooms: '2', price: prices.kyiv['2'][0], image: 'https://example.com/kyiv2.jpg'},
+                {city: 'kyiv', distance: '1', rooms: '3', price: prices.kyiv['3'][0], image: 'https://example.com/kyiv3.jpg'},
+                {city: 'kyiv', distance: '5', rooms: '1', price: prices.kyiv['1'][1], image: 'https://example.com/kyiv4.jpg'},
+                {city: 'kyiv', distance: '5', rooms: '2', price: prices.kyiv['2'][1], image: 'https://example.com/kyiv5.jpg'},
+                {city: 'kyiv', distance: '5', rooms: '3', price: prices.kyiv['3'][1], image: 'https://example.com/kyiv6.jpg'},
+                {city: 'kyiv', distance: '10', rooms: '1', price: prices.kyiv['1'][2], image: 'https://example.com/kyiv7.jpg'},
+                {city: 'kyiv', distance: '10', rooms: '2', price: prices.kyiv['2'][2], image: 'https://example.com/kyiv8.jpg'},
+                {city: 'kyiv', distance: '10', rooms: '3', price: prices.kyiv['3'][2], image: 'https://example.com/kyiv9.jpg'},
+                // Львів
+                {city: 'lviv', distance: '1', rooms: '1', price: prices.lviv['1'][0], image: 'https://example.com/lviv1.jpg'},
+                {city: 'lviv', distance: '1', rooms: '2', price: prices.lviv['2'][0], image: 'https://example.com/lviv2.jpg'},
+                {city: 'lviv', distance: '1', rooms: '3', price: prices.lviv['3'][0], image: 'https://example.com/lviv3.jpg'},
+                {city: 'lviv', distance: '5', rooms: '1', price: prices.lviv['1'][1], image: 'https://example.com/lviv4.jpg'},
+                {city: 'lviv', distance: '5', rooms: '2', price: prices.lviv['2'][1], image: 'https://example.com/lviv5.jpg'},
+                {city: 'lviv', distance: '5', rooms: '3', price: prices.lviv['3'][1], image: 'https://example.com/lviv6.jpg'},
+                {city: 'lviv', distance: '10', rooms: '1', price: prices.lviv['1'][2], image: 'https://example.com/lviv7.jpg'},
+                {city: 'lviv', distance: '10', rooms: '2', price: prices.lviv['2'][2], image: 'https://example.com/lviv8.jpg'},
+                {city: 'lviv', distance: '10', rooms: '3', price: prices.lviv['3'][2], image: 'https://example.com/lviv9.jpg'},
+                // Одеса
+                {city: 'odessa', distance: '1', rooms: '1', price: prices.odessa['1'][0], image: 'https://example.com/odessa1.jpg'},
+                {city: 'odessa', distance: '1', rooms: '2', price: prices.odessa['2'][0], image: 'https://example.com/odessa2.jpg'},
+                {city: 'odessa', distance: '1', rooms: '3', price: prices.odessa['3'][0], image: 'https://example.com/odessa3.jpg'},
+                {city: 'odessa', distance: '5', rooms: '1', price: prices.odessa['1'][1], image: 'https://example.com/odessa4.jpg'},
+                {city: 'odessa', distance: '5', rooms: '2', price: prices.odessa['2'][1], image: 'https://example.com/odessa5.jpg'},
+                {city: 'odessa', distance: '5', rooms: '3', price: prices.odessa['3'][1], image: 'https://example.com/odessa6.jpg'},
+                {city: 'odessa', distance: '10', rooms: '1', price: prices.odessa['1'][2], image: 'https://example.com/odessa7.jpg'},
+                {city: 'odessa', distance: '10', rooms: '2', price: prices.odessa['2'][2], image: 'https://example.com/odessa8.jpg'},
+                {city: 'odessa', distance: '10', rooms: '3', price: prices.odessa['3'][2], image: 'https://example.com/odessa9.jpg'},
+            ];
+            
+            let filteredResults = results.filter(result => 
+                result.city === city && result.rooms === rooms
+            );
+            
+            if (distance !== 'all') {
+                filteredResults = filteredResults.filter(result => result.distance <= distance);
+                filteredResults = filteredResults.slice(0, distance === '1' ? 2 : distance === '5' ? 3 : 5);
+            }
+
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = '';
+
+            if (filteredResults.length > 0) {
+                filteredResults.forEach(result => {
+                    const div = document.createElement('div');
+                    const img = document.createElement('img');
+                    img.src = result.image;
+                    img.alt = `${result.rooms}-кімната квартира`;
+                    img.classList.add('apartment-image');
+                    const text = document.createElement('div');
+                    text.textContent = `${result.rooms}-кімната квартира, ${result.price} грн/міс, на відстані ${result.distance} км`;
+                    div.appendChild(img);
+                    div.appendChild(text);
+                    resultsContainer.appendChild(div);
+                });
+            } else {
+                resultsContainer.textContent = 'Не знайдено результатів';
+            }
+        }
+    </script>
+</body>
+</html>
